@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtual/tabs/home_tab.dart';
 
+
 class Home extends StatelessWidget {
 final _controladorPg = PageController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,6 @@ final _controladorPg = PageController();
       scrollDirection: Axis.vertical,
       children: <Widget>[
          HomeTab(),
-         Container(color: Colors.red),
       ],
     );
   }
