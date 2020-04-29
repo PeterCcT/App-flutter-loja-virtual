@@ -11,11 +11,12 @@ final _controladorPg = PageController();
     return PageView(
       controller: _controladorPg,
       physics: NeverScrollableScrollPhysics(),
-      scrollDirection: Axis.vertical,
+      reverse: false,
+      scrollDirection: Axis.horizontal,
       children: <Widget>[
          Scaffold(
            body: HomeTab(),
-           drawer: CustomDrawer(),
+           drawer: CustomDrawer(_controladorPg),
          ),
       ],
     );
