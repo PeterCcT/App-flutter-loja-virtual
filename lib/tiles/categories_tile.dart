@@ -7,13 +7,16 @@ class CategoriesTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Colors.transparent,
-        backgroundImage: NetworkImage(snapshot.data['icon']),
+    return Card(
+      elevation: 4,
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundColor: Colors.transparent,
+          backgroundImage: NetworkImage(snapshot.data['icon']),
+        ),
+        title: Text(snapshot.data['title']),
+        trailing: Icon(Icons.arrow_forward_ios),
       ),
-      title: Text(snapshot.data['title']),
-      trailing: Icon(Icons.arrow_forward_ios),
     );
   }
 }
