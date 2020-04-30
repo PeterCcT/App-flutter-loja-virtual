@@ -44,7 +44,39 @@ class ProductTile extends StatelessWidget {
                   ),
                 ],
               )
-            : Row(),
+            : Row(
+                children: <Widget>[
+                  Flexible(
+                    flex: 1,
+                    child: Image.network(
+                      data.image[0],
+                      fit: BoxFit.cover,
+                      height: 250,
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            data.title,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 12),
+                          ),
+                          Text(
+                            'R\$ ${data.preco}',
+                            style: TextStyle(
+                                fontSize: 10, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
