@@ -13,7 +13,7 @@ class ProdutosData {
     id = snapshot.documentID;
     title = snapshot.data['title'];
     descricao = snapshot.data['descricao'];
-    preco = snapshot.data['preco'];
+    preco = double.parse(snapshot.data['preco'].toString());
     image = snapshot.data['images'];
     size = snapshot.data['tamanhos'];
   }
