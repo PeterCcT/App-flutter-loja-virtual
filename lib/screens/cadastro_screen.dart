@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:lojavirtual/screens/cadastro_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class CadastroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final primarycolor = Theme.of(context).primaryColor;
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Entrar'),
+        title: Text('Cadastrar'),
         centerTitle: true,
         actions: <Widget>[
           FlatButton(
-            onPressed: () {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => CadastroScreen()));
-            },
+            onPressed: () {},
             child: Text(
-              'Cadastrar',
+              'Entrar',
               style: TextStyle(fontSize: 15),
             ),
             textColor: Colors.white,
@@ -29,6 +25,28 @@ class LoginScreen extends StatelessWidget {
         child: ListView(
           padding: EdgeInsets.all(20),
           children: <Widget>[
+            TextFormField(
+              validator: (text) {
+                if (text.isEmpty) return 'Nome invalido';
+              },
+              decoration: InputDecoration(
+                hintText: 'Nome completo',
+              ),
+            ),
+            SizedBox(
+              height: 18,
+            ),
+              TextFormField(
+              validator: (text) {
+                if (text.isEmpty) return 'Endereço invalido';
+              },
+              decoration: InputDecoration(
+                hintText: 'Endereço',
+              ),
+            ),
+            SizedBox(
+              height: 18,
+            ),
             TextFormField(
               validator: (text) {
                 if (text.isEmpty || !text.contains('@'))
@@ -78,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                 }
               },
               child: Text(
-                'Entrar',
+                'Criar conta',
                 style: TextStyle(fontSize: 18, color: Colors.white),
               ),
               color: primarycolor,
