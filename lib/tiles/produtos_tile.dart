@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtual/data/produtos_data.dart';
+import 'package:lojavirtual/screens/itens_screen.dart';
 
 class ProductTile extends StatelessWidget {
   final String tipo;
@@ -10,6 +11,11 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => ItenScreen(data)),
+        );
+      },
       child: Card(
         child: tipo == 'Grid'
             ? Column(
