@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
       ),
       body: ScopedModelDescendant<UserModel>(
         builder: (context, child, model) {
-          Form(
+          return Form(
             key: _formKey,
             child: ListView(
               padding: EdgeInsets.all(20),
@@ -37,6 +37,7 @@ class LoginScreen extends StatelessWidget {
                   validator: (text) {
                     if (text.isEmpty || !text.contains('@'))
                       return 'Email invalido';
+                    return null;
                   },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -50,6 +51,7 @@ class LoginScreen extends StatelessWidget {
                   validator: (text) {
                     if (text.isEmpty || text.length < 6)
                       return 'Senha invalida';
+                    return null;
                   },
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,

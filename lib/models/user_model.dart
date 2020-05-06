@@ -13,23 +13,45 @@ class UserModel extends Model {
       {@required Map<String, dynamic> userData,
       @required String senha,
       @required VoidCallback onSuccess,
-      @required VoidCallback onFail}) async {
+      @required VoidCallback onFail}) {
     loading = true;
     notifyListeners();
-    await _auth
+
+    _auth
         .createUserWithEmailAndPassword(
             email: userData['email'], password: senha)
-        .then((user) async {
-      firebaseUser = user as FirebaseUser;
+        .asStream()
+        .listen(
+      (user) async {
+        firebaseUser = user;
+        await _saveUserData(userData);
+        onSuccess();
+        loading = false;
+        notifyListeners();
+      },
+      onError: (Object e) {
+        onFail();
+        loading = false;
+        notifyListeners();
+      },
+    );
+
+/*     _auth
+        .createUserWithEmailAndPassword(
+            email: userData['email'], password: senha)
+        .then((FirebaseUser user) async {
+      firebaseUser = user;
       await _saveUserData(userData);
       onSuccess();
       loading = false;
       notifyListeners();
-    }).catchError((e) {
-      onFail();
-      loading = false;
-      notifyListeners();
-    });
+    }).catchError(
+      (e) {
+        onFail();
+        loading = false;
+        notifyListeners();
+      },
+    ); */
   }
 
   void login() async {
@@ -37,9 +59,18 @@ class UserModel extends Model {
     notifyListeners();
   }
 
+  void sair() async {
+    await _auth.signOut();
+    userData = Map();
+    firebaseUser = null;
+    notifyListeners();
+  }
+
   void esqueciSenha() {}
 
-  bool logado() {}
+  bool logado() {
+    return firebaseUser != null;
+  }
 
   Future<Null> _saveUserData(Map<String, dynamic> userData) async {
     this.userData = userData;

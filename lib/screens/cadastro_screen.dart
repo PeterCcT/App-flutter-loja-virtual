@@ -12,32 +12,24 @@ class _CadastroScreenState extends State<CadastroScreen> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _enderController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     final primarycolor = Theme.of(context).primaryColor;
-    final _formKey = GlobalKey<FormState>();
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Cadastrar'),
-          centerTitle: true,
-          actions: <Widget>[
-            FlatButton(
-              onPressed: () {},
-              child: Text(
-                'Entrar',
-                style: TextStyle(fontSize: 15),
-              ),
-              textColor: Colors.white,
-            )
-          ],
-        ),
-        body:
-            ScopedModelDescendant<UserModel>(builder: (context, child, model) {
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: Text('Cadastrar'),
+        centerTitle: true,
+      ),
+      body: ScopedModelDescendant<UserModel>(
+        builder: (context, child, model) {
           if (model.loading)
             return Center(
               child: CircularProgressIndicator(),
             );
-          Form(
+          return Form(
             key: _formKey,
             child: ListView(
               padding: EdgeInsets.all(20),
@@ -46,6 +38,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   controller: _nomeController,
                   validator: (text) {
                     if (text.isEmpty) return 'Nome invalido';
+                    return null;
                   },
                   decoration: InputDecoration(
                     hintText: 'Nome completo',
@@ -58,6 +51,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   controller: _enderController,
                   validator: (text) {
                     if (text.isEmpty) return 'Endereço invalido';
+                    return null;
                   },
                   decoration: InputDecoration(
                     hintText: 'Endereço',
@@ -71,6 +65,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   validator: (text) {
                     if (text.isEmpty || !text.contains('@'))
                       return 'Email invalido';
+                    return null;
                   },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
@@ -85,6 +80,7 @@ class _CadastroScreenState extends State<CadastroScreen> {
                   validator: (text) {
                     if (text.isEmpty || text.length < 6)
                       return 'Senha invalida';
+                    return null;
                   },
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
@@ -136,9 +132,37 @@ class _CadastroScreenState extends State<CadastroScreen> {
               ],
             ),
           );
-        }));
+        },
+      ),
+    );
   }
 
-  void _onSuccess() {}
-  void _onFail() {}
+  void _onSuccess() {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          'Usuário criado com sucesso',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+        duration: Duration(seconds: 2),
+      ),
+    );
+    Future.delayed(Duration(seconds: 2)).then((_) {
+      Navigator.pop(context);
+    });
+  }
+
+  void _onFail() {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          'Falha ao criar usuário',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+        duration: Duration(seconds: 3),
+      ),
+    );
+  }
 }
