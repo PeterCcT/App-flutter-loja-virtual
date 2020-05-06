@@ -1,14 +1,25 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtual/models/user_model.dart';
 import 'package:lojavirtual/screens/cadastro_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreen createState() => _LoginScreen();
+}
+
+class _LoginScreen extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _senhaController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     final primarycolor = Theme.of(context).primaryColor;
-    final _formKey = GlobalKey<FormState>();
+
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text('Entrar'),
         centerTitle: true,
@@ -34,6 +45,7 @@ class LoginScreen extends StatelessWidget {
               padding: EdgeInsets.all(20),
               children: <Widget>[
                 TextFormField(
+                  controller: _emailController,
                   validator: (text) {
                     if (text.isEmpty || !text.contains('@'))
                       return 'Email invalido';
@@ -48,6 +60,7 @@ class LoginScreen extends StatelessWidget {
                   height: 18,
                 ),
                 TextFormField(
+                  controller: _senhaController,
                   validator: (text) {
                     if (text.isEmpty || text.length < 6)
                       return 'Senha invalida';
@@ -81,6 +94,11 @@ class LoginScreen extends StatelessWidget {
                   ),
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
+                      model.login(
+                          email: _emailController.text,
+                          senha: _senhaController.text,
+                          onSuccess: _onSuccess,
+                          onFail: _onFail);
                       _formKey.currentState.save();
                     }
                   },
@@ -94,6 +112,23 @@ class LoginScreen extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  void _onSuccess() {
+    Navigator.of(context).pop();
+  }
+
+  void _onFail() {
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(
+          'Falha ao Entrar',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+        duration: Duration(seconds: 3),
       ),
     );
   }

@@ -9,6 +9,12 @@ class UserModel extends Model {
   Map<String, dynamic> userData = Map();
   bool loading = false;
 
+  @override
+  void addListener(listener) {
+    super.addListener(listener);
+    _loadUserAtual();
+  }
+
   void cadastro(
       {@required Map<String, dynamic> userData,
       @required String senha,
@@ -54,9 +60,28 @@ class UserModel extends Model {
     ); */
   }
 
-  void login() async {
+  void login(
+      {@required String email,
+      @required String senha,
+      @required VoidCallback onSuccess,
+      @required VoidCallback onFail}) async {
     loading = true;
     notifyListeners();
+    _auth.signInWithEmailAndPassword(email: email, password: senha).then(
+      (user) async {
+        firebaseUser = user;
+        await _loadUserAtual();
+        onSuccess();
+        loading = false;
+        notifyListeners();
+      },
+    ).catchError(
+      (e) {
+        onFail();
+        loading = false;
+        notifyListeners();
+      },
+    );
   }
 
   void sair() async {
@@ -78,5 +103,21 @@ class UserModel extends Model {
         .collection('Users')
         .document(firebaseUser.uid)
         .setData(userData);
+  }
+
+  Future<Null> _loadUserAtual() async {
+    if (firebaseUser == null) {
+      firebaseUser = await _auth.currentUser();
+    }
+    if (firebaseUser != null) {
+      if (userData['nome'] == null) {
+        DocumentSnapshot user = await Firestore.instance
+            .collection('user')
+            .document(firebaseUser.uid)
+            .get();
+        userData = user.data;
+      }
+    }
+    notifyListeners();
   }
 }
