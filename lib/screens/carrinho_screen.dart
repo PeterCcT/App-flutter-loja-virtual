@@ -3,6 +3,7 @@ import 'package:lojavirtual/models/carrinho_model.dart';
 import 'package:lojavirtual/models/user_model.dart';
 import 'package:lojavirtual/screens/login_screen.dart';
 import 'package:lojavirtual/tiles/carrinho_tile.dart';
+import 'package:lojavirtual/widgets/desconto_card.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class CarrinhoScreen extends StatelessWidget {
@@ -97,6 +98,7 @@ class CarrinhoScreen extends StatelessWidget {
                     },
                   ).toList(),
                 ),
+                DescontoCard(),
               ],
             );
           }

@@ -8,6 +8,8 @@ class CarrinhoModel extends Model {
   UserModel user;
   List<Produtoscarrinho> produtos = [];
   bool loading = false;
+  String cupomCode;
+  int descontoPercent = 0;
   CarrinhoModel(this.user) {
     if (user.logado()) {
       _loadCarrinho();
@@ -71,5 +73,10 @@ class CarrinhoModel extends Model {
     produtos =
         query.documents.map((e) => Produtoscarrinho.fromDocument(e)).toList();
     notifyListeners();
+  }
+
+  void setCupom(String cupom, int desconto) {
+    cupomCode = cupom;
+    descontoPercent = desconto;
   }
 }
