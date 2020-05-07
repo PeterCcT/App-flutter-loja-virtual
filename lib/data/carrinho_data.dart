@@ -9,6 +9,8 @@ class Produtoscarrinho {
   String tamanho;
   ProdutosData dadosProduto;
 
+  Produtoscarrinho();
+
   Produtoscarrinho.fromDocument(DocumentSnapshot document) {
     cartId = document.documentID;
     categorie = document.data['categoria'];
@@ -23,7 +25,7 @@ class Produtoscarrinho {
       'produtoId': produtoid,
       'quantidade': quantidade,
       'tamanho': tamanho,
-      'produto': dadosProduto.toResumeMap()
+      //'produto': dadosProduto.toResumeMap()
     };
   }
 }

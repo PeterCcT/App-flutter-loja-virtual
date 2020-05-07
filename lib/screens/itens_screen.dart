@@ -1,6 +1,10 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:lojavirtual/data/carrinho_data.dart';
 import 'package:lojavirtual/data/produtos_data.dart';
+import 'package:lojavirtual/models/carrinho_model.dart';
+import 'package:lojavirtual/models/user_model.dart';
+import 'package:lojavirtual/screens/login_screen.dart';
 
 class ItenScreen extends StatefulWidget {
   final ProdutosData produto;
@@ -110,8 +114,28 @@ class _ItenScreenState extends State<ItenScreen> {
                 SizedBox(
                   height: 44,
                   child: OutlineButton(
-                    onPressed: tamanho != null ? () {} : null,
-                    child: Text('Adicionar ao carrinho'),
+                    onPressed: tamanho != null
+                        ? () {
+                            if (UserModel.of(context).logado()) {
+                              Produtoscarrinho item = Produtoscarrinho();
+                              item.tamanho = tamanho;
+                              item.quantidade = 1;
+                              item.produtoid = produto.id;
+                              item.categorie = produto.categorie;
+                              CarrinhoModel.of(context)
+                                  .addProdutoCarrinho(item);
+                            } else {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            }
+                          }
+                        : null,
+                    child: Text(UserModel.of(context).logado()
+                        ? 'Adicionar ao carrinho'
+                        : 'Entre para comprar'),
                     borderSide: BorderSide(
                       color: primaryColor,
                     ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:lojavirtual/data/carrinho_data.dart';
 import 'package:lojavirtual/models/user_model.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -7,6 +8,8 @@ class CarrinhoModel extends Model {
   UserModel user;
   List<Produtoscarrinho> produtos = [];
   CarrinhoModel(this.user);
+  static CarrinhoModel of(BuildContext context) =>
+      ScopedModel.of<CarrinhoModel>(context);
 
   void addProdutoCarrinho(Produtoscarrinho item) {
     produtos.add(item);

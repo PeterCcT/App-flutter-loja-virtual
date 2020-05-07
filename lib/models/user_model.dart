@@ -8,6 +8,7 @@ class UserModel extends Model {
   FirebaseUser firebaseUser;
   Map<String, dynamic> userData = Map();
   bool loading = false;
+  static UserModel of(BuildContext context) => ScopedModel.of<UserModel>(context);
 
   @override
   void addListener(listener) {
