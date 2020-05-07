@@ -79,4 +79,70 @@ class CarrinhoModel extends Model {
     cupomCode = cupom;
     descontoPercent = desconto;
   }
+
+  double getProdutosPrice() {
+    double price = 0.0;
+    for (Produtoscarrinho c in produtos) {
+      if (c.dadosProduto != null) {
+        price += c.quantidade * c.dadosProduto.preco;
+      }
+    }
+    return price;
+  }
+
+  double getEntregaPrice() {
+    return 9.99;
+  }
+
+  double getDescontoPrice() {
+    return (getProdutosPrice() * descontoPercent) / 100;
+  }
+
+  void updatePrices() {
+    notifyListeners();
+  }
+
+  Future<String> realizarPedido() async {
+    if (produtos.length == 0) return null;
+    loading = true;
+    notifyListeners();
+    double preco = getProdutosPrice();
+    double entrega = getEntregaPrice();
+    double desconto = getDescontoPrice();
+
+    DocumentReference refPedido =
+        await Firestore.instance.collection('Pedidos').add({
+      'ClienteId': user.firebaseUser.uid,
+      'Produtos': produtos.map((e) => e.toMap()).toList(),
+      'Entrega': entrega,
+      'ProdutosPreco': preco,
+      'Desconto': desconto,
+      'Total': preco - desconto + entrega,
+      'Status': 1
+    });
+    await Firestore.instance
+        .collection('Users')
+        .document(user.firebaseUser.uid)
+        .collection('Pedidos')
+        .document(refPedido.documentID)
+        .setData({'PedidoID': refPedido.documentID});
+
+    QuerySnapshot query = await Firestore.instance
+        .collection('Users')
+        .document(user.firebaseUser.uid)
+        .collection('Carrinho')
+        .getDocuments();
+
+    for (DocumentSnapshot doc in query.documents) {
+      doc.reference.delete();
+    }
+
+    produtos.clear();
+    cupomCode = null;
+    descontoPercent = 0;
+    loading = false;
+    notifyListeners();
+
+    return refPedido.documentID;
+  }
 }

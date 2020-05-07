@@ -10,6 +10,7 @@ class CarrinhoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget _buildContent() {
+      CarrinhoModel.of(context).updatePrices();
       return Row(
         children: <Widget>[
           Container(

@@ -13,6 +13,9 @@ class CarrinhoPrice extends StatelessWidget {
         padding: EdgeInsets.all(10),
         child: ScopedModelDescendant<CarrinhoModel>(
           builder: (context, child, model) {
+            double price = model.getProdutosPrice();
+            double desconto = model.getDescontoPrice();
+            double ship = model.getEntregaPrice();
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -26,7 +29,7 @@ class CarrinhoPrice extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text('Subtotal'),
-                    Text('R\$ 0'),
+                    Text('R\$ ${price.toStringAsFixed(2)}'),
                   ],
                 ),
                 Divider(),
@@ -34,7 +37,7 @@ class CarrinhoPrice extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text('Desconto'),
-                    Text('0%'),
+                    Text('${desconto.toStringAsFixed(2)}%'),
                   ],
                 ),
                 Divider(),
@@ -42,7 +45,7 @@ class CarrinhoPrice extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text('Entrega'),
-                    Text('R\$ 0'),
+                    Text('R\$ ${ship.toStringAsFixed(2)}'),
                   ],
                 ),
                 Divider(),
@@ -55,7 +58,7 @@ class CarrinhoPrice extends StatelessWidget {
                       style: TextStyle(fontWeight: FontWeight.w500),
                     ),
                     Text(
-                      'R\$ 0',
+                      'R\$ ${(price + ship - desconto).toStringAsFixed(2)}',
                       style: TextStyle(
                           color: Colors.indigoAccent,
                           fontWeight: FontWeight.w500,

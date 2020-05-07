@@ -102,7 +102,12 @@ class CarrinhoScreen extends StatelessWidget {
                 ),
                 DescontoCard(),
                 ShipCard(),
-                CarrinhoPrice(() {}),
+                CarrinhoPrice(() async {
+                  String pedidoID = await model.realizarPedido();
+                  if (pedidoID != null) {
+                    print(pedidoID);
+                  }
+                }),
               ],
             );
           }
