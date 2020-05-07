@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtual/tabs/home_tab.dart';
+import 'package:lojavirtual/widgets/carrinho_button.dart';
 import 'package:lojavirtual/widgets/custom_drawer.dart';
 import 'package:lojavirtual/tabs/categories_tab.dart';
+
 class Home extends StatelessWidget {
   final _controladorPg = PageController();
 
@@ -15,6 +17,7 @@ class Home extends StatelessWidget {
       children: <Widget>[
         Scaffold(
           body: HomeTab(),
+          floatingActionButton: CarrinhoButton(),
           drawer: CustomDrawer(_controladorPg),
         ),
         Scaffold(
@@ -23,6 +26,7 @@ class Home extends StatelessWidget {
             centerTitle: true,
           ),
           body: CategoriesOfTabs(),
+          floatingActionButton: CarrinhoButton(),
           drawer: CustomDrawer(_controladorPg),
         ),
       ],

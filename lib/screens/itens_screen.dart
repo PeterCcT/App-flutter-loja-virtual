@@ -4,6 +4,7 @@ import 'package:lojavirtual/data/carrinho_data.dart';
 import 'package:lojavirtual/data/produtos_data.dart';
 import 'package:lojavirtual/models/carrinho_model.dart';
 import 'package:lojavirtual/models/user_model.dart';
+import 'package:lojavirtual/screens/carrinho_screen.dart';
 import 'package:lojavirtual/screens/login_screen.dart';
 
 class ItenScreen extends StatefulWidget {
@@ -124,6 +125,11 @@ class _ItenScreenState extends State<ItenScreen> {
                               item.categorie = produto.categorie;
                               CarrinhoModel.of(context)
                                   .addProdutoCarrinho(item);
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) => CarrinhoScreen(),
+                                ),
+                              );
                             } else {
                               Navigator.of(context).push(
                                 MaterialPageRoute(

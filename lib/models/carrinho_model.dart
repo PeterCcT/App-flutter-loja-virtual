@@ -7,6 +7,7 @@ import 'package:scoped_model/scoped_model.dart';
 class CarrinhoModel extends Model {
   UserModel user;
   List<Produtoscarrinho> produtos = [];
+  bool loading = false;
   CarrinhoModel(this.user);
   static CarrinhoModel of(BuildContext context) =>
       ScopedModel.of<CarrinhoModel>(context);
