@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtual/data/carrinho_data.dart';
 import 'package:lojavirtual/data/produtos_data.dart';
+import 'package:lojavirtual/models/carrinho_model.dart';
 
 class CarrinhoTile extends StatelessWidget {
   final Produtoscarrinho produtoscarrinho;
@@ -45,8 +46,12 @@ class CarrinhoTile extends StatelessWidget {
                           Icons.remove,
                           color: Theme.of(context).primaryColor,
                         ),
-                        onPressed:
-                            produtoscarrinho.quantidade > 1 ? () {} : null,
+                        onPressed: produtoscarrinho.quantidade > 1
+                            ? () {
+                                CarrinhoModel.of(context)
+                                    .decProduto(produtoscarrinho);
+                              }
+                            : null,
                       ),
                       Text(produtoscarrinho.quantidade.toString()),
                       IconButton(
@@ -54,10 +59,16 @@ class CarrinhoTile extends StatelessWidget {
                           Icons.add,
                           color: Colors.green[500],
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          CarrinhoModel.of(context)
+                              .incProduto(produtoscarrinho);
+                        },
                       ),
                       FlatButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          CarrinhoModel.of(context)
+                              .removeProdutoCarrinho(produtoscarrinho);
+                        },
                         child: Text(
                           'Remover',
                         ),
