@@ -88,19 +88,6 @@ class _CadastroScreenState extends State<CadastroScreen> {
                     hintText: 'Senha',
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: FlatButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {},
-                    child: Text(
-                      'Esqueci minha senha',
-                      style: TextStyle(
-                        color: primarycolor,
-                      ),
-                    ),
-                  ),
-                ),
                 SizedBox(
                   height: 10,
                 ),

@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lojavirtual/models/user_model.dart';
 import 'package:lojavirtual/screens/cadastro_screen.dart';
@@ -27,7 +26,10 @@ class _LoginScreen extends State<LoginScreen> {
           FlatButton(
             onPressed: () {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => CadastroScreen()));
+                MaterialPageRoute(
+                  builder: (context) => CadastroScreen(),
+                ),
+              );
             },
             child: Text(
               'Cadastrar',
@@ -76,7 +78,26 @@ class _LoginScreen extends State<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: FlatButton(
                     padding: EdgeInsets.zero,
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_emailController.text.isEmpty)
+                        _scaffoldKey.currentState.showSnackBar(
+                          SnackBar(
+                            content: Text('Insira seu emmail para recuperação'),
+                            backgroundColor: Colors.redAccent,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      else {
+                        model.esqueciSenha(_emailController.text);
+                        _scaffoldKey.currentState.showSnackBar(
+                          SnackBar(
+                            content: Text('Confira seu email'),
+                            backgroundColor: Colors.indigo,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    },
                     child: Text(
                       'Esqueci minha senha',
                       style: TextStyle(

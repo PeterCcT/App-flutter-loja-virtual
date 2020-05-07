@@ -22,27 +22,7 @@ class UserModel extends Model {
       @required VoidCallback onFail}) {
     loading = true;
     notifyListeners();
-
     _auth
-        .createUserWithEmailAndPassword(
-            email: userData['email'], password: senha)
-        .asStream()
-        .listen(
-      (user) async {
-        firebaseUser = user;
-        await _saveUserData(userData);
-        onSuccess();
-        loading = false;
-        notifyListeners();
-      },
-      onError: (Object e) {
-        onFail();
-        loading = false;
-        notifyListeners();
-      },
-    );
-
-/*     _auth
         .createUserWithEmailAndPassword(
             email: userData['email'], password: senha)
         .then((FirebaseUser user) async {
@@ -57,7 +37,7 @@ class UserModel extends Model {
         loading = false;
         notifyListeners();
       },
-    ); */
+    );
   }
 
   void login(
@@ -91,7 +71,9 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void esqueciSenha() {}
+  void esqueciSenha(String email) {
+    _auth.sendPasswordResetEmail(email: email);
+  }
 
   bool logado() {
     return firebaseUser != null;
@@ -112,7 +94,7 @@ class UserModel extends Model {
     if (firebaseUser != null) {
       if (userData['nome'] == null) {
         DocumentSnapshot user = await Firestore.instance
-            .collection('user')
+            .collection('Users')
             .document(firebaseUser.uid)
             .get();
         userData = user.data;

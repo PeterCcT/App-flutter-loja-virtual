@@ -57,7 +57,7 @@ class CustomDrawer extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'Olá!,${!model.logado() ? '' : model.userData['nome']}',
+                                'Olá!,${model.logado() ? model.userData['nome'] : ''}',
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -71,7 +71,9 @@ class CustomDrawer extends StatelessWidget {
                                         builder: (context) => LoginScreen(),
                                       ),
                                     );
-                                  }else{model.sair();}
+                                  } else {
+                                    model.sair();
+                                  }
                                 },
                                 child: Padding(
                                   padding: EdgeInsets.only(top: 5),
