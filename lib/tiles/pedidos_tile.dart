@@ -23,6 +23,7 @@ class PedidosTile extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             } else {
+              int status = snapshot.data['Status'];
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -35,6 +36,31 @@ class PedidosTile extends StatelessWidget {
                   ),
                   Text(
                     _buildProdutoTexto(snapshot.data),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Status do pedido',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      _buildCircle('1', 'Preparação', status, 1),
+                      Container(
+                        height: 1,
+                        width: 40,
+                        color: Colors.grey[500],
+                      ),
+                      _buildCircle('2', 'Transporte', status, 2),
+                      Container(
+                        height: 1,
+                        width: 40,
+                        color: Colors.grey[500],
+                      ),
+                      _buildCircle('3', 'Entrega', status, 3),
+                    ],
                   ),
                 ],
               );
@@ -53,5 +79,50 @@ class PedidosTile extends StatelessWidget {
     }
     text += 'Total: R\$ ${snapshot.data['Total'].toStringAsFixed(2)}';
     return text;
+  }
+
+  Widget _buildCircle(
+      String title, String subTitle, int status, int thisStatus) {
+    Color backcolor;
+    Widget child;
+
+    if (status < thisStatus) {
+      backcolor = Colors.grey[500];
+      child = Text(
+        title,
+        style: TextStyle(color: Colors.white),
+      );
+    } else if (status == thisStatus) {
+      backcolor = Colors.blue;
+      child = Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          Text(
+            title,
+            style: TextStyle(color: Colors.white),
+          ),
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          ),
+        ],
+      );
+    } else {
+      backcolor = Colors.green;
+      child = Icon(
+        Icons.check,
+        color: Colors.white,
+      );
+    }
+
+    return Column(
+      children: <Widget>[
+        CircleAvatar(
+          radius: 20,
+          backgroundColor: backcolor,
+          child: child,
+        ),
+        Text(subTitle),
+      ],
+    );
   }
 }
