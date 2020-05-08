@@ -123,6 +123,7 @@ class _ItenScreenState extends State<ItenScreen> {
                               item.quantidade = 1;
                               item.produtoid = produto.id;
                               item.categorie = produto.categorie;
+                              item.dadosProduto = produto;
                               CarrinhoModel.of(context)
                                   .addProdutoCarrinho(item);
                               Navigator.of(context).pushReplacement(

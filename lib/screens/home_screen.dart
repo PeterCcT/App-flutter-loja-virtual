@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lojavirtual/tabs/home_tab.dart';
+import 'package:lojavirtual/tabs/pedidos_tab.dart';
 import 'package:lojavirtual/widgets/carrinho_button.dart';
 import 'package:lojavirtual/widgets/custom_drawer.dart';
 import 'package:lojavirtual/tabs/categories_tab.dart';
@@ -28,6 +29,15 @@ class Home extends StatelessWidget {
           body: CategoriesOfTabs(),
           floatingActionButton: CarrinhoButton(),
           drawer: CustomDrawer(_controladorPg),
+        ),
+        Container(),
+        Scaffold(
+           appBar: AppBar(
+             title: Text('Meus pedidos'),
+             centerTitle: true,
+           ),
+           body: PedidosTab(),
+           drawer: CustomDrawer(_controladorPg),
         ),
       ],
     );

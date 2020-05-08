@@ -25,7 +25,7 @@ class Produtoscarrinho {
       'produtoId': produtoid,
       'quantidade': quantidade,
       'tamanho': tamanho,
-      //'produto': dadosProduto.toResumeMap()
+      'produto': dadosProduto.toResumeMap()
     };
   }
 }
