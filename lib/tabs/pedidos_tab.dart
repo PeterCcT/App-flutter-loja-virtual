@@ -25,6 +25,8 @@ class PedidosTab extends StatelessWidget {
             return ListView(
               children: snapshot.data.documents
                   .map((e) => PedidosTile(e.documentID))
+                  .toList()
+                  .reversed
                   .toList(),
             );
           }
